@@ -1,5 +1,6 @@
 import ast
 
+from socket import *
 from Genesis import Genesis
 from Blockchain import Blockchain
 from utils import hash_string
@@ -140,6 +141,23 @@ class Node:
     def stop_miner(self):
         pass  # TODO
 
+    def initPeer(self):
+        SERVER = "127.0.0.1" #colocar o ip do peer central
+        PORT = 12000
+        BUFFER = 1024
+
+        initialSocket = socket(AF_INET, SOCK_STREAM)
+        initialSocket.connect((SERVER, PORT))
+        initialSocket.send("1".encode())
+
+        data = initialSocket.recv(BUFFER)
+        peersSet = eval(data.decode())
+        peersSet.add(SERVER)
+        self.peers = peersSet
+        writePeers("cpeers.txt", peersSet)
+
+        initialSocket.close()
+
 # node1 = Node(1)
 # node2 = Node(2)
 #
@@ -165,13 +183,13 @@ class Node:
 # for tx in x_txs:
 #     print(x_txs[tx])
 
-from Node import Node
-from Miner import Miner
+#from Node import Node
+#from Miner import Miner
 
 
-a = Node('123')
-a.rebuild_current_state()
-a.miner = Miner(a,'111',1)
-a.miner.start()
-a.miner.accept_transaction({'1':-2, '100':2})
-a.miner.accept_transaction({'1':-2, '100':2})
+#a = Node('123')
+#a.rebuild_current_state()
+#a.miner = Miner(a,'111',1)
+#a.miner.start()
+#a.miner.accept_transaction({'1':-2, '100':2})
+#a.miner.accept_transaction({'1':-2, '100':2})
