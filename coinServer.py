@@ -4,7 +4,6 @@ from socket import *
 from utils import *
 import _thread
 
-
 def sendPeers(connection_socket):
     try:
         msg = ''
@@ -26,7 +25,6 @@ def sendPeers(connection_socket):
         connection_socket.close()
     finally:
         connection_socket.close()
-
 
 peersSet = set()
 # readPeers("peers.txt", peersSet)
